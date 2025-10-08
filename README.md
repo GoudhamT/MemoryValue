@@ -1,66 +1,116 @@
-## Foundry
+# 🧠 Simple Storage dApp (Anvil + Viem + MetaMask)
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+A simple full-stack Ethereum DApp built for **local Anvil network** using **Viem** and **MetaMask**.  
+It allows users to connect their wallet, set and get a stored value, and fetch user-specific stored values.
 
-Foundry consists of:
+---
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## ⚙️ Features
 
-## Documentation
+- 🦊 **Connect Wallet** — Connects to MetaMask wallet  
+- ✏️ **Update Value** — Sets a new numeric value in the smart contract  
+- 📥 **Get Value** — Reads the latest global stored value  
+- 👤 **User Value** — Reads the latest value stored by the connected account  
+- 🔗 **Local Only** — Works exclusively with **Anvil (Hardhat local chain)**
 
-https://book.getfoundry.sh/
 
-## Usage
+## 🚀 Deployment Instructions
 
-### Build
+### 1️⃣ Start Anvil
 
-```shell
-$ forge build
+```bash
+anvil
 ```
 
-### Test
+This launches a local Ethereum test chain at:
 
-```shell
-$ forge test
+```
+http://localhost:8545
+Chain ID: 31337
 ```
 
-### Format
+---
 
-```shell
-$ forge fmt
+### 2️⃣ Deploy the Contract
+
+Use **Foundry** to deploy:
+
+```bash
+forge create --rpc-url http://localhost:8545 --private-key <YOUR_PRIVATE_KEY> src/SimpleStorage.sol:SimpleStorage
 ```
 
-### Gas Snapshots
+✅ Copy the **deployed contract address** shown in the output — you’ll need it for your front-end.
 
-```shell
-$ forge snapshot
+---
+
+## 💻 Frontend Setup
+
+### 3️⃣ Configure Contract Details
+
+In your `index.js` or `index.html` script, make sure to update:
+
+```js
+const contractAddress = "<YOUR_DEPLOYED_CONTRACT_ADDRESS>";
 ```
 
-### Anvil
+The code uses Viem’s `publicClient` and `walletClient` to interact with the contract.
 
-```shell
-$ anvil
+---
+
+### 4️⃣ Run the App
+
+Simply open your **index.html** file in a browser:
+
+```
+file:///path/to/index.html
 ```
 
-### Deploy
+or run a local static server (optional):
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```bash
+npx serve .
 ```
 
-### Cast
+Then, connect MetaMask (make sure MetaMask is connected to **Localhost 8545 / Anvil network**) and try:
 
-```shell
-$ cast <subcommand>
+1. **Connect Wallet** — to link your MetaMask  
+2. **Update Value** — to set a new stored number  
+3. **Get Value** — to read the global stored value  
+4. **User Value** — to read your account-specific value
+
+---
+
+## 🔗 Requirements
+
+- [Foundry](https://book.getfoundry.sh/getting-started/installation)
+- [Anvil](https://book.getfoundry.sh/anvil/)
+- [MetaMask](https://metamask.io/)
+- [Viem](https://viem.sh/) JavaScript library
+- A modern browser (Chrome / Brave / Edge)
+
+---
+
+## 🧰 Folder Structure
+
+```
+📦 simple-storage-dapp
+ ┣ 📂 src
+ ┃ ┗ 📜 MemoryValue.sol
+ ┣ 📜 index.html
+ ┣ 📜 index-js.js
+ ┣ 📜 README.md
 ```
 
-### Help
+---
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+## 🧠 Notes
+
+- Works **only** on Anvil local network (`chainId = 31337`)
+- You can use pre-funded Anvil private keys for testing
+- If “Stored value” updates slowly, wait a few seconds for the block to confirm
+
+---
+
+## 🧾 License
+
+MIT © 2025 — Simple Storage Demo
